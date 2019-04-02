@@ -1,5 +1,2 @@
-__pycache__/
-env/
-/log/*.log
-/tmp
 .env
+__pycache__/
