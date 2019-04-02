@@ -26,6 +26,7 @@ def launch_game():
     game = 0
 
     while menu:
+        pygame.time.Clock().tick(30)
         # display and refresh the labyrinth whit wall and tiles in the windows
         menu = pygame.image.load("ressource/menu.png").convert()
         setting_game = pygame.image.load("ressource/setting.png").convert()
@@ -55,6 +56,7 @@ def launch_game():
 
     # initialization of loop, to leave the game need to game = 0
         while game:
+            pygame.time.Clock().tick(30)
                 # Loop for leave the game
             for event in pygame.event.get():
                 if event.type == QUIT or event.type == KEYDOWN and event.key == K_ESCAPE:
@@ -73,8 +75,5 @@ def launch_game():
                     
                 window.blit(mg.character, (mg.x, mg.y))
                 pygame.display.flip()
-                    
-
                 
-
 launch_game()

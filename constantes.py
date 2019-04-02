@@ -15,9 +15,9 @@ picture_rampart = "ressource/structures.png"
 picture_mcgyver = "ressource/MacGyver.png"
 picture_guardian = "ressource/Gardien.png"
 picture_ether = "ressource/ether.png"
-picture_needle = "ressource/aiguille.png"
+picture_needle = "ressource/needle.png"
 picture_syringe = "ressource/seringue.png"
-picture_tube = "ressource/tube_plastique.png"
+picture_tube = "ressource/tub.png"
 
 # list of random object
 

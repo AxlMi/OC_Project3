@@ -59,7 +59,7 @@ class Labyrinth:
                     
                     x = random_x * len_sprite
                     y = random_y * len_sprite
-                    obj_lab_rdm = pygame.image.load(obj).convert()
+                    obj_lab_rdm = pygame.image.load(obj).convert_alpha()
                     window.blit(obj_lab_rdm, (y, x))
                     obj = obj[10:]
                     obj = obj [:-4]
