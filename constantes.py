@@ -21,5 +21,5 @@ picture_tube = "ressource/tub.png"
 
 # list of random object
 
-rdm_obj = [picture_ether, picture_needle, picture_syringe, picture_tube]
-pos_obj = {}
+rdm_obj = [picture_ether, picture_needle, picture_tube]
+

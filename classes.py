@@ -8,6 +8,7 @@ from random import randint
 
 
 class Labyrinth:
+
     def __init__(self, file):
         self.file = str(file)
         self.map_labyrinthe = 0 
@@ -29,7 +30,6 @@ class Labyrinth:
         wall = pygame.image.load(picture_rampart).convert()
         self.tiles = pygame.image.load(picture_tiles).convert()
         guardian = pygame.image.load(picture_guardian).convert_alpha()
-        
         # take letter and line in list of map_labyrinthe, if the letter is a m we make one wall else one tiles.
         num_line = 0
         for line in self.map_labyrinthe:
@@ -37,38 +37,38 @@ class Labyrinth:
             for letter in line:
                 x = num_letter * len_sprite 
                 y = num_line * len_sprite
-                if letter == "m":
+                if letter == "x":
                     window.blit(wall, (x,y))
-                if letter == "O":
+                if letter == " ":
                     window.blit(self.tiles, (x, y))
                 if letter == "A":
                     window.blit(self.tiles, (x, y))
                     window.blit(guardian, (x, y))
-                if letter == "D":
-                    window.blit(self.tiles, (x, y))
                 num_letter +=1
             num_line +=1
+
     # this method return one objet random in the map
     def random_obj(self, window):
+        number_obj = 0
         for obj in rdm_obj:
             keep = True
             while keep:
                 random_x = randint(0,14) 
-                random_y = randint(0,14) 
-                if self.map_labyrinthe[random_x][random_y] == "O":
-                    
+                random_y = randint(0,14)
+                if self.map_labyrinthe[random_x][random_y] == " ":
+                    letter_object = 'ijk'
                     x = random_x * len_sprite
                     y = random_y * len_sprite
                     obj_lab_rdm = pygame.image.load(obj).convert_alpha()
                     window.blit(obj_lab_rdm, (y, x))
-                    obj = obj[10:]
-                    obj = obj [:-4]
-                    pos_obj[obj] = (random_x, random_y)
-                    self.map_labyrinthe[random_x][random_y] = "i"
+                    self.map_labyrinthe[random_x][random_y] = letter_object[number_obj]
+                    number_obj +=1
                     keep = False
 
+
 class Characters:
-    def __init__(self, character, labyrinth):
+
+    def __init__(self, character, labyrinth, window):
         self.character = pygame.image.load(character).convert_alpha()
         #position of the box, 15 max
         self.case_x = 0
@@ -76,117 +76,75 @@ class Characters:
         # real position whit pixel 
         self.x = 0
         self.y = 0
+        self.window = window
         self.labyrinth = labyrinth
         self.inventory = []
 
 
-    def moove(self, direction, window):
-        
-        if direction == "right":
-            if self.case_x < (nb_sprite - 1):
-                if self.labyrinth.map_labyrinthe[self.case_y][self.case_x+1] == "A":
+    def take_obj(self):
+        obj_nb = 0
+        if self.labyrinth.map_labyrinthe[self.case_y][self.case_x] != ' ' and self.labyrinth.map_labyrinthe[self.case_y][self.case_x] != 'A':
+            if self.labyrinth.map_labyrinthe[self.case_y][self.case_x] == "i":
+                obj_nb = 0    
+            elif self.labyrinth.map_labyrinthe[self.case_y][self.case_x] == "j":
+                obj_nb = 1
+            elif self.labyrinth.map_labyrinthe[self.case_y][self.case_x] == "k":
+                obj_nb = 2
+            obj_picked = rdm_obj[obj_nb]
+            obj_picked = obj_picked[10:]
+            obj_picked = obj_picked[:-4]
+            print("you picked up : {}".format(obj_picked))
+            self.inventory.append(obj_picked)
+            self.labyrinth.map_labyrinthe[self.case_y][self.case_x] = " "
+
+    def end_game(self):
+        if self.labyrinth.map_labyrinthe[self.case_y][self.case_x] == "A":
                     if len(self.inventory) == len(rdm_obj):
                         win = pygame.image.load("ressource/win.png").convert_alpha()
-                        window.blit(win, (80, 110))
+                        self.window.blit(win, (80, 110))
                         pygame.display.flip()
                         print('Congratulation, you win')
-                        for event in pygame.event.get():
-                            if event.type == KEYDOWN:
-                                if event.key == K_ESCAPE:
-                                    menu = 1
-                                    menu = pygame.image.load("ressource/menu.png").convert()
-                                    window.blit(menu, (0, 0))
-                                    pygame.display.flip() 
-                                    game = 0
-  
                     else:
                         lose = pygame.image.load("ressource/lose.png").convert_alpha()
-                        window.blit(lose, (80, 100))
+                        self.window.blit(lose, (80, 100))
                         pygame.display.flip()
                         print('Lose, u forgot : {} object'.format(len(rdm_obj)-len(self.inventory)))
-                        for event in pygame.event.get():
-                            if event.type == KEYDOWN and event.key == K_ESCAPE:
-                                menu = 1
-                                menu = pygame.image.load("ressource/menu.png").convert()
-                                window.blit(menu, (0, 0))
-                                pygame.display.flip() 
-                                game = 0
-                           
-                      
-                    window.blit(self.labyrinth.tiles, (self.x, self.y))
-                    pygame.display.flip()
-                    self.case_x += 1
-                    pygame.display.flip()
-                    self.x = self.case_x * len_sprite
-                    self.labyrinth.map_labyrinthe[self.case_y][self.case_x-1] = "m"
-                        
-                elif self.labyrinth.map_labyrinthe[self.case_y][self.case_x+1] != "m":
-                    window.blit(self.labyrinth.tiles, (self.x+1, self.y)) #display tiles after moove
-                    pygame.display.flip()
-                    self.case_x += 1
-                    if self.labyrinth.map_labyrinthe[self.case_y][self.case_x] == "i":
-                        for obj in pos_obj:
-                            if pos_obj[obj] == (self.case_y, self.case_x):
-                                print("you picked up : {}".format(obj))
-                                self.inventory.append(obj)
-                                self.labyrinth.map_labyrinthe[self.case_y][self.case_x] = "O"
-                    window.blit(self.labyrinth.tiles, (self.x, self.y))
-                    self.x = self.case_x * len_sprite
-                    pygame.display.flip()
-                    window.blit(self.labyrinth.tiles, (self.x, self.y)) #display tiles after moove
-                    self.x = self.case_x * len_sprite
+                    self.labyrinth.map_labyrinthe[self.case_y][self.case_x-1] = "x"
 
+    def moove(self, direction):
+        if direction == "right":
+            if self.case_x < (nb_sprite - 1):
+                if self.labyrinth.map_labyrinthe[self.case_y][self.case_x+1] != "x":
+                    self.case_x += 1
+                    self.end_game()
+                    self.take_obj()
         if direction == "left":
             if self.case_x > 0:
-                if self.labyrinth.map_labyrinthe[self.case_y][self.case_x-1] != "m":
-                    window.blit(self.labyrinth.tiles, (self.x-1, self.y)) #display tiles after moove
-                    pygame.display.flip()
-                    window.blit(self.labyrinth.tiles, (self.x, self.y))
+                if self.labyrinth.map_labyrinthe[self.case_y][self.case_x-1] != "x":
+                    self.window.blit(self.labyrinth.tiles, (self.x, self.y))
                     self.case_x -= 1
-                    if self.labyrinth.map_labyrinthe[self.case_y][self.case_x] == "i":
-                        for obj in pos_obj:
-                            if pos_obj[obj] == (self.case_y, self.case_x):
-                                print("you picked up : {}".format(obj))
-                                self.inventory.append(obj)
-                                self.labyrinth.map_labyrinthe[self.case_y][self.case_x] = "O"
-
-                    window.blit(self.labyrinth.tiles, (self.x, self.y))
-                    self.x = self.case_x * len_sprite
-                    pygame.display.flip()
-                    window.blit(self.labyrinth.tiles, (self.x, self.y)) #display tiles after moove
-
+                    self.end_game()
+                    self.take_obj()
         if direction == "up":
             if self.case_y > 0:
-                if self.labyrinth.map_labyrinthe[self.case_y-1][self.case_x] != "m":
-                    window.blit(self.labyrinth.tiles, (self.x, self.y))
+                if self.labyrinth.map_labyrinthe[self.case_y-1][self.case_x] != "x":
+                    self.window.blit(self.labyrinth.tiles, (self.x, self.y))
                     self.case_y -= 1
-                    if self.labyrinth.map_labyrinthe[self.case_y][self.case_x] == "i":
-                        for obj in pos_obj:
-                            if pos_obj[obj] == (self.case_y, self.case_x):
-                                print("you picked up : {}".format(obj))
-                                self.inventory.append(obj)
-                                self.labyrinth.map_labyrinthe[self.case_y][self.case_x] = "O"
-
-                    window.blit(self.labyrinth.tiles, (self.x, self.y))
-                    self.y = self.case_y * len_sprite
-                    pygame.display.flip()
-                    window.blit(self.labyrinth.tiles, (self.x, self.y)) #display tiles after moove
-                    self.y = self.case_y * len_sprite
+                    self.end_game()
+                    self.take_obj()
         if direction == "down":
             if self.case_y < (nb_sprite - 1):
-                if self.labyrinth.map_labyrinthe[self.case_y+1][self.case_x] != "m":
-                    window.blit(self.labyrinth.tiles, (self.x, self.y))
+                if self.labyrinth.map_labyrinthe[self.case_y+1][self.case_x] != "x":
+                    self.window.blit(self.labyrinth.tiles, (self.x, self.y))
                     self.case_y += 1
-                    if self.labyrinth.map_labyrinthe[self.case_y][self.case_x] == "i":
-                        for obj in pos_obj:
-                            if pos_obj[obj] == (self.case_y, self.case_x):
-                                print("you picked up : {}".format(obj))
-                                self.inventory.append(obj)
-                                self.labyrinth.map_labyrinthe[self.case_y][self.case_x] = "O"
-                    window.blit(self.labyrinth.tiles, (self.x, self.y))
-                    self.y = self.case_y * len_sprite
-                    pygame.display.flip()
-                    window.blit(self.labyrinth.tiles, (self.x, self.y)) #display tiles after moove
+                    self.end_game()
+                    self.take_obj()
+        self.window.blit(self.labyrinth.tiles, (self.x, self.y))
+        self.x = self.case_x * len_sprite
+        self.y = self.case_y * len_sprite
+        pygame.display.flip()        
+        self.window.blit(self.labyrinth.tiles, (self.x, self.y))
+
                     
                     
 

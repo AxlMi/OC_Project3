@@ -14,13 +14,11 @@ for win you need to take the objects and to lull the guard
 """
 
 
-def launch_game():
+def launch_game() :
 
     # initialization of pygame and create windows whit 15 sprites
     pygame.init()
     window = pygame.display.set_mode((len_window, len_window))
-
-
     
     menu = 1
     game = 0
@@ -39,12 +37,11 @@ def launch_game():
             elif event.type == KEYDOWN:
                 if event.key == K_RETURN:
                     menu = 0
-                    setting = 0
                     game = 1
                     labyrinth = Labyrinth("map")
                     labyrinth.map_building()
                     labyrinth.display_lab(window)
-                    mg = Characters(picture_mcgyver, labyrinth)
+                    mg = Characters(picture_mcgyver, labyrinth, window)
                     window.blit(mg.character, (mg.x,mg.y))
                     labyrinth.random_obj(window)
                     pygame.display.flip()
@@ -65,13 +62,13 @@ def launch_game():
                     # touch to move in the labyrinth
                 elif event.type == KEYDOWN:
                     if event.key == K_DOWN:
-                        mg.moove("down", window)
+                        mg.moove("down")
                     if event.key == K_LEFT:
-                        mg.moove("left", window)
+                        mg.moove("left")
                     if event.key == K_UP:
-                        mg.moove("up", window)
+                        mg.moove("up")
                     if event.key == K_RIGHT:
-                        mg.moove("right", window)
+                        mg.moove("right")
                     
                 window.blit(mg.character, (mg.x, mg.y))
                 pygame.display.flip()
