@@ -106,12 +106,12 @@ class Characters:
                 self.window.blit(win, (80, 110))
                 pygame.display.flip()
                 print('Congratulation, you win')
-        else:
-            lose = pygame.image.load("ressource/lose.png").convert_alpha()
-            self.window.blit(lose, (80, 100))
-            pygame.display.flip()
-            print('Lose, u forgot : {} object'.format(len(rdm_obj)-len(self.inventory)))
-        self.labyrinth.map_labyrinthe[self.case_y][self.case_x-1] = "x"
+            else:
+                lose = pygame.image.load("ressource/lose.png").convert_alpha()
+                self.window.blit(lose, (80, 100))
+                pygame.display.flip()
+                print('Lose, u forgot : {} object'.format(len(rdm_obj)-len(self.inventory)))
+            self.labyrinth.map_labyrinthe[self.case_y][self.case_x-1] = "x"
 
     def moove(self, direction):
         if direction == "right":

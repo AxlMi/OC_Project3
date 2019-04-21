@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-# -*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-git push
 
 # setting window
 nb_sprite = 15
