@@ -1,12 +1,10 @@
 #!/usr/bin/python3
 # -*- coding:utf-8 -*-
 
-#setting window
+# setting window
 nb_sprite = 15
 len_sprite = 30
 len_window = nb_sprite * len_sprite
-
-
 
 # constants picture
 
@@ -22,4 +20,3 @@ picture_tube = "ressource/tub.png"
 # list of random object
 
 rdm_obj = [picture_ether, picture_needle, picture_tube]
-
