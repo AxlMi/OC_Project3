@@ -21,7 +21,8 @@ def launch_game():
         setting_game = pygame.image.load("ressource/setting.png").convert()
         window.blit(menu, (0, 0))
         for event in pygame.event.get():
-            if event.type == QUIT or event.type == KEYDOWN and event.key == K_ESCAPE:
+            if event.type == QUIT or event.type == KEYDOWN
+            and event.key == K_ESCAPE:
                 menu = 0
                 game = 0
             elif event.type == KEYDOWN:
@@ -44,7 +45,8 @@ def launch_game():
             pygame.time.Clock().tick(30)
             # Loop for leave the game
             for event in pygame.event.get():
-                if event.type == QUIT or event.type == KEYDOWN and event.key == K_ESCAPE:
+                if event.type == QUIT or event.type == KEYDOWN
+                and event.key == K_ESCAPE:
                     menu = 1
                     game = 0
                     # touch to move in the labyrinth

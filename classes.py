@@ -114,33 +114,32 @@ class Characters:
             self.labyrinth.map_labyrinthe[self.case_y][self.case_x-1] = "x"
 
     def moove(self, direction):
+        if_move = False
         if direction == "right":
             if self.case_x < (nb_sprite - 1):
                 if self.labyrinth.map_labyrinthe[self.case_y][self.case_x+1] != "x":
+                    if_move = True
                     self.case_x += 1
-                    self.end_game()
-                    self.take_obj()
         if direction == "left":
             if self.case_x > 0:
                 if self.labyrinth.map_labyrinthe[self.case_y][self.case_x-1] != "x":
-                    self.window.blit(self.labyrinth.tiles, (self.x, self.y))
+                    if_move = True
                     self.case_x -= 1
-                    self.end_game()
-                    self.take_obj()
         if direction == "up":
             if self.case_y > 0:
                 if self.labyrinth.map_labyrinthe[self.case_y-1][self.case_x] != "x":
-                    self.window.blit(self.labyrinth.tiles, (self.x, self.y))
+                    if_move = True
                     self.case_y -= 1
-                    self.end_game()
-                    self.take_obj()
+            
         if direction == "down":
             if self.case_y < (nb_sprite - 1):
                 if self.labyrinth.map_labyrinthe[self.case_y+1][self.case_x] != "x":
-                    self.window.blit(self.labyrinth.tiles, (self.x, self.y))
+                    if_move = True
                     self.case_y += 1
-                    self.end_game()
-                    self.take_obj()
+        if if_move:
+            self.end_game()
+            self.take_obj()
+        
         self.window.blit(self.labyrinth.tiles, (self.x, self.y))
         self.x = self.case_x * len_sprite
         self.y = self.case_y * len_sprite
