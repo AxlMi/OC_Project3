@@ -64,8 +64,7 @@ class Labyrinth:
                     y = random_y * len_sprite
                     obj_lab_rdm = pygame.image.load(obj).convert_alpha()
                     window.blit(obj_lab_rdm, (y, x))
-                    self.map_labyrinthe[random_x][random_y] =
-                    letter_object[number_obj]
+                    self.map_labyrinthe[random_x][random_y] = letter_object[number_obj]
                     number_obj += 1
                     keep = False
 
@@ -86,8 +85,7 @@ class Characters:
 
     def take_obj(self):
         obj_nb = 0
-        if self.labyrinth.map_labyrinthe[self.case_y][self.case_x] !=
-        ' ' and self.labyrinth.map_labyrinthe[self.case_y][self.case_x] != 'A':
+        if self.labyrinth.map_labyrinthe[self.case_y][self.case_x] != ' ' and self.labyrinth.map_labyrinthe[self.case_y][self.case_x] != 'A':
             if self.labyrinth.map_labyrinthe[self.case_y][self.case_x] == "i":
                 obj_nb = 0
             elif self.labyrinth.map_labyrinthe[self.case_y][self.case_x] == "j":
