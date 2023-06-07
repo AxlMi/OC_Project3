@@ -7,7 +7,7 @@ from classes import *
 """is a script to play a game of labyrinth, it corresponds at my project 3 """
 # function for launch this game
 
-
+# ok
 def launch_game():
     # initialization of pygame and create windows whit 15 sprites
     pygame.init()
